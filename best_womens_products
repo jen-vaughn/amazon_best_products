@@ -1,0 +1,24 @@
+# Analyzing Amazon best selling products
+#Find the best women's products based on number of reviews and overall rating
+
+import pandas as pd
+
+df = pd.read_csv(r"C:\Users\Jennifer Vaughn\OneDrive - Temple University\amazon_best_selling_products.csv")
+
+df.info() # view general data info
+
+
+# only include department=womens products
+
+womens_df = df[df['department'] == 'womens']
+womens_df.to_csv("womens.csv", index=False)
+
+#convert 'rating' to be numeric
+womens_df['rating'] = pd.to_numeric(womens_df['rating'], errors='coerce')
+
+#now, see new the 'rating' data type (float)
+womens_df.info()
+
+#of those womens products, only show those with over 1k reviews and a 4+ rating
+filtered_womens_df = womens_df[(womens_df['reviews_count'] >= 1000) & (womens_df['rating'] >= 4.0)]
+filtered_womens_df.to_csv("filtered_womens.csv", index=False)
